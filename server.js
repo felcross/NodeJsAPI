@@ -1,6 +1,6 @@
 import app from "./src/app.js"
 
-// usando porta no ambiente de produçã ou local
+// usando porta no ambiente de produção ou local
 const port = process.env.PORT || 3000;
 
 

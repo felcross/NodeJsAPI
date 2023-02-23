@@ -1,15 +1,19 @@
 import  express  from "express";
+import db from "./config/dbconnect.js"
+import livros from "./models/Livros.js";
  
-//rebendo uma instancia
+// bind entre o terminal e o log do mongo
+db.on("error",console.log.bind(console,"erro de conexão"))
+db.once("open", ()=>{
+  console.log("conexão com banco feita com sucesso")
+})
+//recebendo uma instancia
 const app = express();
 
 //setando tipo de msg transferida
 app.use(express.json())
 
-const livros = [
-    {id: 1, "titulo": "Senhor dos Aneis"},
-    {id: 2, "titulo": "O Hobbit"}
-  ]
+
 
   app.get('/', (req, res) => {
     res.status(200).send('Curso de Node');
@@ -21,7 +25,9 @@ const livros = [
   })
 
   app.get('/livros', (req, res) => {
-    res.status(200).json(livros);
+    livros.find((err,livros)=> {
+      res.status(200).send(livros);
+    })
   }) 
 
   app.post('/livros', (req, res) => {
