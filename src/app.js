@@ -1,8 +1,9 @@
 import  express  from "express";
 import db from "./config/dbconnect.js"
 import livros from "./models/Livros.js";
+import routes from "./routes/index.js"
  
-// bind entre o terminal e o log do mongo
+// bind entre o terminal e o log do mongoDB 
 db.on("error",console.log.bind(console,"erro de conexão"))
 db.once("open", ()=>{
   console.log("conexão com banco feita com sucesso")
@@ -13,47 +14,50 @@ const app = express();
 //setando tipo de msg transferida
 app.use(express.json())
 
+//passando app instaciado paras rotas
+routes(app)
 
 
-  app.get('/', (req, res) => {
-    res.status(200).send('Curso de Node');
-  }) 
+export default app
 
-  app.get('/livros/:id', (req, res) => {
-    let index = buscaLivro(req.params.id);
-    res.json(livros[index]);
-  })
+// modo ANTIGO / guardando pra futuros estudos
+// app.get('/', (req, res) => {
+//   res.status(200).send('Curso de Node');
+// }) 
 
-  app.get('/livros', (req, res) => {
-    livros.find((err,livros)=> {
-      res.status(200).send(livros);
-    })
-  }) 
+// app.get('/livros/:id', (req, res) => {
+//   let index = buscaLivro(req.params.id);
+//   res.json(livros[index]);
+// })
 
-  app.post('/livros', (req, res) => {
-    livros.push(req.body);
-    res.status(201).send('Livro foi cadastrado com sucesso')
-  })
+// app.get('/livros', (req, res) => {
+//   livros.find((err,livros)=> {
+//     res.status(200).send(livros);
+//   })
+// }) 
 
-
-  app.put('/livros/:id', (req, res) => {
-    let index = buscaLivro(req.params.id);
-    livros[index].titulo = req.body.titulo;
-    res.json(livros);
-  })
-
-  app.delete('/livros/:id', (req, res) => {
-    //desestruturação
-    let {id} = req.params;
-    let index = buscaLivro(id);
-    livros.splice(index, 1);
-    //res.json(livros);
-    res.send(`Livro ${id} removido com sucesso`);
-  })
+// app.post('/livros', (req, res) => {
+//   livros.push(req.body);
+//   res.status(201).send('Livro foi cadastrado com sucesso')
+// })
 
 
-  function buscaLivro(id) {
-    return livros.findIndex(livros => livros.id == id)
-  }
+// app.put('/livros/:id', (req, res) => {
+//   let index = buscaLivro(req.params.id);
+//   livros[index].titulo = req.body.titulo;
+//   res.json(livros);
+// })
 
-  export default app
+// app.delete('/livros/:id', (req, res) => {
+//   //desestruturação
+//   let {id} = req.params;
+//   let index = buscaLivro(id);
+//   livros.splice(index, 1);
+//   //res.json(livros);
+//   res.send(`Livro ${id} removido com sucesso`);
+// })
+
+
+// function buscaLivro(id) {
+//   return livros.findIndex(livros => livros.id == id)
+// }
