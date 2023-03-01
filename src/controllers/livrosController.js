@@ -5,21 +5,25 @@ import livros from "../models/Livros.js";
 class LivroController {
 
 static listarLivros = (req,res) =>{
-    livros.find((err,livros)=> {
-        res.status(200).send(livros);
-      })
+    // 1. encontra os livros 2. popula com os dados do outro doc 3. executa os comandos
+    livros.find()
+          .populate("autor")
+          .exec((err,livros)=> {
+           res.status(200).send(livros);
+            })
 }
 
 static listarLivroPorId = (req,res) =>{
 const id =req.params.id
     
-livros.findById(id,(err, livros)=> {
-    if(err){
-        res.status(400).send({message: `${err.message}+ ID não encontrado`})
-    } else {
-        res.status(200).send(livros)
-    }
-})
+livros.findById(id)
+       .populate("autor",'nome')
+       .exec((err, livros) => {
+           if(err){
+               res.status(400).send({message: `${err.message}+ ID não encontrado`})
+            } else {
+                 res.status(200).send(livros)
+              }})
 }
 
 static cadastrarLivro = (req,res) =>{
@@ -59,8 +63,15 @@ static excluirLivro = (req,res) =>{
          else { res.send(500).send({message: `${err.message}+ ID invalido para exclusão`})}
     })
 
+    
 }
 
+static listarLivrosPorTitulo = (req,res) =>{
+     const titulo = req.query.titulo
+     livros.find({'titulo': titulo},{},(err,livros)=>{
+        res.status(200).send(livros)
+     })
+}
 
 
 }

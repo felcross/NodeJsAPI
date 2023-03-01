@@ -7,7 +7,7 @@ const livroSchema = new mongoose.Schema(
       editora:{type: String , required:true},
       numPaginas:{type: Number} 
     }
-)
+)   
 
 const livros = mongoose.model('livros',livroSchema)
 
