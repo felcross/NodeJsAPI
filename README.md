@@ -3,7 +3,7 @@ NodeJS API Rest com Express e MongoDB
 
 # Sobre o projeto
 
-Api rest desenvolvida no curso Alura com proposito de cadastrar livros e autores. 
+Api rest simples com proposito de cadastrar livros e autores e demonstrar conhecimento. 
 
 # Tecnologias utilizadas 
 - NodeJs/Express
