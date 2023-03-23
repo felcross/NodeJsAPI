@@ -1,5 +1,3 @@
-# NodeJsAPI
-NodeJS API Rest com Express e MongoDB
 
 # Sobre o projeto
 
